@@ -1,0 +1,39 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addGame">Add Game</button>
+<div class="modal fade" id="addGame" tabindex="-1" aria-labelledby="addGameLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addGameLabel">Add a new Game</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/games/create" method="post">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="titleInput" class="form-label">Title</label>
+                    <input required  type="text" name="title" class="form-control" id="titleInput">
+                </div>
+                <div class="mb-3">
+                    <label for="descriptionInput" class="form-label">Description</label>
+                    <textarea required type="text" name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="yearReleaseInput" class="form-label">Release Year</label>
+                    <input required type="number" name="yearRelease" class="form-control" id="yearReleaseInput" min="1900" max="2099" value="2023">
+                </div>
+                <div class="mb-3">
+                    <label for="tagIdInput" class="form-label">Tags</label>
+                    <select multiple id="tagIdInput" type="number" name="tagId" class="form-select chosen-select">
+                      <% tags.forEach(tag => { %>
+                        <option value="<%= tag.id %>"><%= tag.name %></option>
+                      <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Confirm</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>

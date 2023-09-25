@@ -1,0 +1,3 @@
+npx sequelize-cli model:generate --name game --attributes title:string,description:string,yearRelease:integer
+npx sequelize-cli model:generate --name tag --attributes name:string
+npx sequelize-cli model:generate --name gameTags --attributes gameId:integer,tagId:integer
