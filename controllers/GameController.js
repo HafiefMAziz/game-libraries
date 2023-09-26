@@ -32,7 +32,7 @@ class GameController {
                         tagId: tag
                 })
             })
-            }else{
+            }else if(reqGame.tagId){
                 newgameTags = await gameTags.create({
                     gameId: newGame.id,
                     tagId: reqGame.tagId
@@ -81,9 +81,9 @@ class GameController {
             const updatedId = +req.params.id
             const reqGame = req.body
             const oldGame = await game.findByPk(updatedId);
-            const fb = await game.update(reqGame ,{where : {id : updatedId}})
-            const deleteFk = await gameTags.destroy({where : {gameId : updatedId}})  
-            let newgameTags = {}
+            const fbUpdate = await game.update(reqGame ,{where : {id : updatedId}})
+            const fbDelete = await gameTags.destroy({where : {gameId : updatedId}})  
+            let newgameTags = []
             if(Array.isArray(reqGame.tagId)){
                 reqGame.tagId.forEach(async tag => {
                     newgameTags = await gameTags.create({
@@ -91,13 +91,14 @@ class GameController {
                         tagId: tag
                 })
             })
-            }else{
+            }else if (reqGame.tagId){
                 newgameTags = await gameTags.create({
-                    gameId: newGame.id,
+                    gameId: oldGame.id,
                     tagId: reqGame.tagId
                 })
             }
-            if(fb[0] === 1 && deleteFk[0] === 1){ //feedback 1 dalam bentuk array jika proses update berhasil
+            // res.send([fbUpdate, fbDelete, newgameTags])
+            if(fbUpdate[0] === 1 || fbDelete){ //feedback 1 dalam bentuk array jika proses update berhasil
                 res.redirect('/games');
             }else{
                 res.send(`Game with ID ${updatedId} cannot be updated`);
