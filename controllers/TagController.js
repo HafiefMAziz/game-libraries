@@ -1,14 +1,22 @@
-const {game, tag} = require("../models");
+const {tag, gameTags} = require("../models");
 
 class TagController {
 
     static async getTags(req, res) {
         try {
             const tags = await tag.findAll()
-            res.render('./tag/index.ejs', {
-                title: `Tag Lists`,
-                tags
-            })
+            const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
+            if(acceptHeader && acceptHeader.includes("text/html")) {
+                res.render('./tag/index.ejs', {
+                    title: `Tag Lists`,
+                    tags
+                })
+            }else{
+                res.send({
+                    message: `All Tags`,
+                    tags
+                })
+            }
         } catch (error) {
             res.send(error);
         }
@@ -18,7 +26,15 @@ class TagController {
         try {
             const reqTag = req.body
             const newTag = await tag.create(reqTag)
-            res.redirect('/tags')
+            const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
+            if(acceptHeader && acceptHeader.includes("text/html")) {
+                res.redirect('/tags')
+            }else{
+                res.send({
+                    message: `Create a new tag succes!`,
+                    newTag
+                })
+            }
         } catch (error) {
             res.send(error);
         }
@@ -28,13 +44,21 @@ class TagController {
         try {
             const deletedId = +req.params.id
             const deletedTag = await tag.findByPk(deletedId);
-            const tags = await tag.update({tagId: null}, {where: {tagId : deletedId}})
-            const fb = await tag.destroy({where : {id : deletedId}})  
-            if(fb === 1){ //feedback 1 jika proses destroy berhasil
-                res.redirect('/tags')
+            const fbDeleteGameTag = await gameTags.destroy({where : {tagId : deletedId}})  
+            const fbDeleteTag = await tag.destroy({where : {id : deletedId}}) 
+            const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
+            if(acceptHeader && acceptHeader.includes("text/html")) {
+                if(fbDeleteTag || fbDeleteGameTag){ //feedback angka teergantung banyaknya rows ke destroy 
+                    res.redirect('/tags')
+                }else{
+                    res.send(`Tag with ID ${deletedId} cannot be deleted`);
+                }
             }else{
-                res.send(`Tag with ID ${deletedId} cannot be deleted`);
-            }
+                res.send({
+                    message: `Delete a tag with ID ${deletedId} succes!`,
+                    deletedTag
+                })
+            } 
         } catch (error) {
             res.send(error);
         }
@@ -58,12 +82,22 @@ class TagController {
             const updatedId = +req.params.id
             const reqTag = req.body
             const oldTag = await tag.findByPk(updatedId);
-            const fb = await tag.update(reqTag ,{where : {id : updatedId}})
-            if(fb[0] === 1){ //feedback 1 dalam bentuk array jika proses update berhasil
-                res.redirect('/tags');
+            const fbUpdateTag = await tag.update(reqTag ,{where : {id : updatedId}})
+            const updatedTag = await tag.findByPk(updatedId);
+            const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
+            if(acceptHeader && acceptHeader.includes("text/html")) {
+                if(fbUpdateTag){ //feedback angka teergantung banyaknya rows ke update 
+                    res.redirect('/tags');
+                }else{
+                    res.send(`Tag with ID ${updatedId} cannot be updated`);
+                }
             }else{
-                res.send(`Tag with ID ${updatedId} cannot be updated`);
-            }
+                res.send({
+                    message: `Update a tag with ID ${deletedId}succes!`,
+                    oldTag,
+                    updatedTag
+                })
+            } 
         } catch (error) {
             res.send(error);
         }

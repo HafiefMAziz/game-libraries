@@ -21,8 +21,8 @@
                     <input required type="number" name="yearRelease" class="form-control" id="yearReleaseInput" min="1900" max="2099" value="2023">
                 </div>
                 <div class="mb-3">
-                    <label for="tagIdInput" class="form-label">Tags</label>
-                    <select multiple id="tagIdInput" type="number" name="tagId" class="form-select chosen-select">
+                    <label for="tagIdsInput" class="form-label">Tags</label>
+                    <select multiple id="tagIdsInput" type="number" name="tagIds" class="form-select chosen-select">
                       <% tags.forEach(tag => { %>
                         <option value="<%= tag.id %>"><%= tag.name %></option>
                       <% }) %>

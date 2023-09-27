@@ -19,9 +19,9 @@
                 <div class="col-sm-3">
                     <input required value="<%= oldGame.yearRelease %>" name="yearRelease" type="number" class="form-control" id="inputyearRelease" min="1900" max="2099" value="2023">
                 </div>
-                <label for="tagIdInput" class="col-sm-1 col-form-label">Tags</label>
+                <label for="tagIdsInput" class="col-sm-1 col-form-label">Tags</label>
                 <div class="col-sm-3">
-                    <select multiple id="tagIdInput" type="number" name="tagId" class="form-select chosen-select">
+                    <select multiple id="tagIdsInput" type="number" name="tagIds" class="form-select chosen-select">
                       <% tags.forEach(tag => { %>
                         <% if (oldGame.tags.some(oldTag => oldTag.id === tag.id)) { %>
                             <option selected value="<%= tag.id %>"><%= tag.name %></option> 
