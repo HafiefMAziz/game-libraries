@@ -26,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('gameTags');
+    await queryInterface.dropTable('gameTag');
   }
 };

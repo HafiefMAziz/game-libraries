@@ -1,10 +1,10 @@
-const {game, tag, gameTags} = require("../models");
+const {game, tag, gameTag} = require("../models");
 
 class GameController {
 
     static async getGames(req, res) {
         try {
-            const games = await game.findAll({include: tag, order: [[{model: tag},"name", "ASC"]]})
+            const games = await game.findAll({include: {model: tag, order: [["name", "ASC"]]}})
             const tags = await tag.findAll({order: [["name", "ASC"]]})
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
@@ -27,6 +27,9 @@ class GameController {
     static async create(req, res) {
         try {
             const reqGame = req.body
+            if(typeof reqGame.tagIds === "string"){
+                reqGame.tagIds = JSON.parse(reqGame.tagIds)
+            }
             const newGame = await game.create({ 
                 title: reqGame.title,
                 description: reqGame.description,
@@ -35,13 +38,13 @@ class GameController {
             let newgameTags = {}
             if(Array.isArray(reqGame.tagIds)){
                 reqGame.tagIds.forEach(async tag => {
-                    newgameTags = await gameTags.create({
+                    newgameTags = await gameTag.create({
                         gameId: newGame.id,
                         tagId: tag
                     })
                 })
             }else if(reqGame.tagIds){
-                newgameTags = await gameTags.create({
+                newgameTags = await gameTag.create({
                     gameId: newGame.id,
                     tagId: reqGame.tagIds
                 })
@@ -64,7 +67,7 @@ class GameController {
         try {
             const deletedId = +req.params.id
             const deletedGame = await game.findByPk(deletedId);
-            const fbDeleteGameTag = await gameTags.destroy({where : {gameId : deletedId}})  
+            const fbDeleteGameTag = await gameTag.destroy({where : {gameId : deletedId}})  
             const fbDeleteGame = await game.destroy({where : {id : deletedId}})  
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
@@ -73,10 +76,14 @@ class GameController {
                 }else{
                     res.send(`Game with ID ${deletedId} cannot be deleted`);
                 }
+            }else if(deletedGame){
+                res.send({
+                    message: `Deleted a Game with id ${deletedGame.id} succes!`,
+                    deletedGame
+                })
             }else{
                 res.send({
-                    message: `Deleted a Game with id ${deletedId} succes!`,
-                    deletedGame
+                    message: `Cannot find data with ID ${deletedId}`
                 })
             }
         } catch (error) {
@@ -105,19 +112,21 @@ class GameController {
             const reqGame = req.body
             const oldGame = await game.findByPk(updatedId);
             const fbUpdateGame = await game.update(reqGame ,{where : {id : updatedId}})
-            const fbDeleteGameTag = await gameTags.destroy({where : {gameId : updatedId}})  
+            const fbDeleteGameTag = await gameTag.destroy({where : {gameId : updatedId}})  
             const updatedGame = await game.findByPk(updatedId);
             let newgameTags = []
-            console.log(reqGame)
+            if(typeof reqGame.tagIds === "string"){
+                reqGame.tagIds = JSON.parse(reqGame.tagIds)
+            }
             if(Array.isArray(reqGame.tagIds)){
                 reqGame.tagIds.forEach(async tag => {
-                    newgameTags = await gameTags.create({
+                    newgameTags = await gameTag.create({
                         gameId: updatedId,
                         tagId: tag
                 })
             })
             }else if (reqGame.tagIds){
-                newgameTags = await gameTags.create({
+                newgameTags = await gameTag.create({
                     gameId: updatedId,
                     tagId: reqGame.tagIds
                 })
@@ -129,11 +138,15 @@ class GameController {
                 }else{
                     res.send(`Game with ID ${updatedId} cannot be updated`);
                 }
-            }else{
+            }else if(updatedGame){
                 res.send({
-                    message: `Succes update a Game with Id ${updatedId}`,
+                    message: `Succes update a Game with Id ${updatedGame.id}`,
                     oldGame,
                     updatedGame
+                })
+            }else{
+                res.send({
+                    message: `Cannot find data with ID ${updatedId}`
                 })
             }
         } catch (error) {

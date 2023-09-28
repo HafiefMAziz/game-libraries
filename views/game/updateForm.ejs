@@ -9,16 +9,12 @@
                 <div class="col-sm-3">
                     <input required value="<%= oldGame.title %>" name="title" type="text" class="form-control" id="inputTitle">
                 </div>
-                <label for="inputTitle" class="col-sm-1 col-form-label">Description</label>
-                <div class="col-sm-3">
-                    <input required value="<%= oldGame.description %>" name="description" type="text" class="form-control" id="inputDescription">
-                </div>
-            </div>
-            <div class="row mb-4">
                 <label for="inputyearRelease" class="col-sm-1 col-form-label">Release Year</label>
                 <div class="col-sm-3">
                     <input required value="<%= oldGame.yearRelease %>" name="yearRelease" type="number" class="form-control" id="inputyearRelease" min="1900" max="2099" value="2023">
                 </div>
+            </div>
+            <div class="row mb-4">
                 <label for="tagIdsInput" class="col-sm-1 col-form-label">Tags</label>
                 <div class="col-sm-3">
                     <select multiple id="tagIdsInput" type="number" name="tagIds" class="form-select chosen-select">
@@ -30,6 +26,10 @@
                         <% } %>
                       <% }) %>
                     </select>
+                </div>
+                <label for="inputTitle" class="col-sm-1 col-form-label">Description</label>
+                <div class="col-sm-3">
+                    <textarea required name="description" type="text" class="form-control" id="inputDescription" rows="3"><%= oldGame.description %></textarea>
                 </div>
             </div>
             <button type="submit" class="btn btn-success me-1">Update</button>

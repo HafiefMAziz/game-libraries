@@ -1,4 +1,4 @@
-const {tag, gameTags} = require("../models");
+const {tag, gameTag} = require("../models");
 
 class TagController {
 
@@ -44,7 +44,7 @@ class TagController {
         try {
             const deletedId = +req.params.id
             const deletedTag = await tag.findByPk(deletedId);
-            const fbDeleteGameTag = await gameTags.destroy({where : {tagId : deletedId}})  
+            const fbDeleteGameTag = await gameTag.destroy({where : {tagId : deletedId}})  
             const fbDeleteTag = await tag.destroy({where : {id : deletedId}}) 
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
@@ -53,10 +53,14 @@ class TagController {
                 }else{
                     res.send(`Tag with ID ${deletedId} cannot be deleted`);
                 }
+            }else if(deletedTag){
+                res.send({
+                    message: `Delete a tag with ID ${deletedTag.id} succes!`,
+                    deletedTag
+                })
             }else{
                 res.send({
-                    message: `Delete a tag with ID ${deletedId} succes!`,
-                    deletedTag
+                    message: `Cannot find data with ID ${deletedId}`
                 })
             } 
         } catch (error) {
@@ -91,13 +95,17 @@ class TagController {
                 }else{
                     res.send(`Tag with ID ${updatedId} cannot be updated`);
                 }
-            }else{
+            }else if (updatedTag){
                 res.send({
-                    message: `Update a tag with ID ${deletedId}succes!`,
+                    message: `Update a tag with ID ${updatedTag.id} succes!`,
                     oldTag,
                     updatedTag
                 })
-            } 
+            }else{
+                res.send({
+                    message: `Cannot find data with ID ${updatedId}`
+                })
+            }
         } catch (error) {
             res.send(error);
         }
