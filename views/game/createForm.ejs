@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addGame">Add Game</button>
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addGame"><i class="bi bi-plus-lg"></i>Add Game</button>
 <div class="modal fade" id="addGame" tabindex="-1" aria-labelledby="addGameLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -21,10 +21,18 @@
                     <input required type="number" name="yearRelease" class="form-control" id="yearReleaseInput" min="1900" max="2099" value="2023">
                 </div>
                 <div class="mb-3">
-                    <label for="tagIdsInput" class="form-label">Tags</label>
-                    <select multiple id="tagIdsInput" type="number" name="tagIds" class="form-select chosen-select">
-                      <% tags.forEach(tag => { %>
-                        <option value="<%= tag.id %>"><%= tag.name %></option>
+                    <label for="publisherIdInput" class="form-label">Publishers</label>
+                    <select required id="publisherIdInput" type="number" name="publisherId" class="form-select">
+                      <% publishers.forEach(publisher => { %>
+                        <option selected value="<%= publisher.id %>"><%= publisher.name %></option>
+                      <% }) %>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="genreIdsInput" class="form-label">Tags</label>
+                    <select multiple id="genreIdsInput" type="number" name="genreIds" class="form-select chosen-select">
+                      <% genres.forEach(genre => { %>
+                        <option value="<%= genre.id %>"><%= genre.name %></option>
                       <% }) %>
                     </select>
                 </div>

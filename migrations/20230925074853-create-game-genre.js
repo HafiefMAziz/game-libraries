@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('gameTags', {
+    await queryInterface.createTable('gameGenres', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,7 +12,7 @@ module.exports = {
       gameId: {
         type: Sequelize.INTEGER
       },
-      tagId: {
+      genreId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -26,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('gameTag');
+    await queryInterface.dropTable('gameGenre');
   }
 };

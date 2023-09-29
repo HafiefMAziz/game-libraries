@@ -16,8 +16,12 @@
       "description": "Table Games"
     },
     {
-      "name": "Tag",
-      "description": "Table Tags"
+      "name": "Genre",
+      "description": "Table Genres"
+    },
+    {
+      "name": "Publisher",
+      "description": "Table Publishers"
     }
   ],
   "paths": {
@@ -35,7 +39,7 @@
     "/games/create": {
       "post": {
         "tags": ["Game"],
-        "description": "idTags must be array of integer or single integer and must be same value in the Table of Tag",
+        "description": "idGenres must be array of integer or single integer and must be same value in the Table of Genre",
         "parameters": [
           {
             "name": "body",
@@ -52,7 +56,7 @@
                 "yearRelease": {
                   "example": "2022"
                 },
-                "tagIds": {
+                "genreIds": {
                   "example": "[1, 2]"
                 }
               }
@@ -88,7 +92,7 @@
     "/games/update/{id}": {
       "post": {
         "tags": ["Game"],
-        "description": "idTags must be array of integer or single integer and must be same value in the Table of Tag",
+        "description": "idGenres must be array of integer or single integer and must be same value in the Table of Genre",
         "parameters": [
           {
             "name": "id",
@@ -111,7 +115,7 @@
                 "yearRelease": {
                   "example": "2013"
                 },
-                "tagIds": {
+                "genreIds": {
                   "example": "[1, 2, 3]"
                 }
               }
@@ -125,9 +129,9 @@
         }
       }
     },
-    "/tags/": {
+    "/genres/": {
       "get": {
-        "tags": ["Tag"],
+        "tags": ["Genre"],
         "description": "",
         "responses": {
           "200": {
@@ -136,9 +140,9 @@
         }
       }
     },
-    "/tags/create": {
+    "/genres/create": {
       "post": {
-        "tags": ["Tag"],
+        "tags": ["Genre"],
         "description": "",
         "parameters": [
           {
@@ -161,9 +165,9 @@
         }
       }
     },
-    "/tags/delete/{id}": {
+    "/genres/delete/{id}": {
       "get": {
-        "tags": ["Tag"],
+        "tags": ["Genre"],
         "description": "",
         "parameters": [
           {
@@ -180,9 +184,9 @@
         }
       }
     },
-    "/tags/update/{id}": {
+    "/genres/update/{id}": {
       "post": {
-        "tags": ["Tag"],
+        "tags": ["Genre"],
         "description": "",
         "parameters": [
           {
@@ -199,6 +203,92 @@
               "properties": {
                 "name": {
                   "example": "Indie"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/publishers/": {
+      "get": {
+        "tags": ["Publisher"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/publishers/create": {
+      "post": {
+        "tags": ["Publisher"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Electronic Arts"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/publishers/delete/{id}": {
+      "get": {
+        "tags": ["Publisher"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/publishers/update/{id}": {
+      "post": {
+        "tags": ["Publisher"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Ubisoft"
                 }
               }
             }

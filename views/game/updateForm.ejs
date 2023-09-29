@@ -15,21 +15,40 @@
                 </div>
             </div>
             <div class="row mb-4">
-                <label for="tagIdsInput" class="col-sm-1 col-form-label">Tags</label>
+                <label for="publisherIdInput" class="col-sm-1 col-form-label">Publishers</label>
                 <div class="col-sm-3">
-                    <select multiple id="tagIdsInput" type="number" name="tagIds" class="form-select chosen-select">
-                      <% tags.forEach(tag => { %>
-                        <% if (oldGame.tags.some(oldTag => oldTag.id === tag.id)) { %>
-                            <option selected value="<%= tag.id %>"><%= tag.name %></option> 
-                        <% } else { %>
-                            <option value="<%= tag.id %>"><%= tag.name %></option>
+                    <select required id="publisherIdInput" type="number" name="publisherId" class="form-select">
+                        <% if (oldGame.publisher) { %>
+                            <option selected value="<%= oldGame.publisherId %>"><%= oldGame.publisher.name %></option> 
+                            <% publishers.forEach(publisher => { %>
+                              <% if (publisher.id != oldGame.publisher.id){ %>
+                                  <option value="<%= publisher.id %>"><%= publisher.name %></option> 
+                              <% } %>
+                            <% }) %>
+                        <% }else { %>
+                            <% publishers.forEach(publisher => { %>
+                                <option value="<%= publisher.id %>"><%= publisher.name %></option> 
+                            <% }) %>
                         <% } %>
-                      <% }) %>
                     </select>
                 </div>
-                <label for="inputTitle" class="col-sm-1 col-form-label">Description</label>
+                <label for="genreIdsInput" class="col-sm-1 col-form-label">Genres</label>
                 <div class="col-sm-3">
-                    <textarea required name="description" type="text" class="form-control" id="inputDescription" rows="3"><%= oldGame.description %></textarea>
+                    <select multiple id="genreIdsInput" type="number" name="genreIds" class="form-select chosen-select">
+                        <% genres.forEach(genre => { %>
+                            <% if (oldGame.genres.some(oldGenre => oldGenre.id === genre.id)) { %>
+                                <option selected value="<%= genre.id %>"><%= genre.name %></option> 
+                                <% } else { %>
+                                    <option value="<%= genre.id %>"><%= genre.name %></option>
+                                    <% } %>
+                                    <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <label for="inputTitle" class="col-sm-1 col-form-label">Description</label>
+                <div class="col-sm-6">
+                    <textarea required name="description" type="text" class="form-control" id="inputDescription" rows="5"><%= oldGame.description %></textarea>
                 </div>
             </div>
             <button type="submit" class="btn btn-success me-1">Update</button>

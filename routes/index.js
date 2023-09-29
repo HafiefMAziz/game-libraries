@@ -1,6 +1,7 @@
 const route = require('express').Router()
 const gameRoutes = require('./gameRoutes.js')
-const tagRoutes = require('./tagRoutes.js')
+const genreRoutes = require('./genreRoutes.js')
+const publisherRoutes = require('./publisherRoutes.js')
 
 route.get('/', (req, res) => {
     res.render('index.ejs', {
@@ -8,5 +9,6 @@ route.get('/', (req, res) => {
     });
 })
 route.use('/games', gameRoutes);
-route.use('/tags', tagRoutes);
+route.use('/genres', genreRoutes);
+route.use('/publishers', publisherRoutes);
 module.exports = route

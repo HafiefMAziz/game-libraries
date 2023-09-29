@@ -1,0 +1,37 @@
+<%- include('../layouts/header.ejs') %>
+<% if(getGame){ %>
+    <a href="/games" type="button" class="btn btn-primary mb-3"><i class="bi bi-arrow-left-square"></i> Back</a>
+    <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-3">
+            <% if (getGame.imageUrl) { %>
+              <img src="<%= getGame.imageUrl %>" class="img-fluid rounded-start" style="max-width: 300px; max-height: 500px;">
+            <% } else { %>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png" class="img-fluid rounded-start" style="max-width: 300px; max-height: 500px;">
+            <% } %>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title"><%= getGame.title %> (<%= getGame.yearRelease %>)</h4>
+              <% if (getGame.publisher) { %>
+                <h5 class="card-subtitle mb-2"><%= getGame.publisher.name %></h5>
+                <% } %>
+                <% if (getGame.genres) { %>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <% getGame.genres.forEach((genre, index) => { %>
+                            <% if (getGame.genres.length === index+1) { %>
+                            <%= genre.name %>.
+                            <% } else { %>
+                            <%= genre.name %>,
+                            <% } %>
+                        <% })%>
+                    </h6>
+                <% } %>
+              <p class="card-text"><%= getGame.description %></p>
+              <p class="card-text"><small class="text-muted">Last updated : <%= getGame.updatedAt %></small></p>
+            </div>
+          </div>
+        </div>
+    </div>
+<% } %>
+<%- include('../layouts/footer.ejs') %>

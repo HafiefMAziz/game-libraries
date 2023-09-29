@@ -1,17 +1,25 @@
-const {game, tag, gameTag} = require("../models");
+const {game, genre, publisher, gameGenre} = require("../models");
 
 class GameController {
 
     static async getGames(req, res) {
         try {
-            const games = await game.findAll({include: {model: tag, order: [["name", "ASC"]]}})
-            const tags = await tag.findAll({order: [["name", "ASC"]]})
+            const games = await game.findAll({
+                include: [
+                    {model: genre, order: [["name", "ASC"]]},
+                    publisher
+                ], 
+                order: [["title", "ASC"]]
+            })
+            const genres = await genre.findAll({order: [["name", "ASC"]]})
+            const publishers = await publisher.findAll()
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
                 res.render('./game/index.ejs', {
                     title: `Game Lists`,
                     games,
-                    tags
+                    genres,
+                    publishers
                 })
             }else{
                 res.send({
@@ -24,29 +32,56 @@ class GameController {
         }
 
     }
+    static async getOneGame(req, res) {
+        try {
+            const gameId = +req.params.id
+            const getGame = await game.findByPk(gameId, {
+                include: [
+                {model: genre, order: [["name", "ASC"]]},
+                publisher
+                ], 
+            });
+            const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
+            if(acceptHeader && acceptHeader.includes("text/html")) {
+                res.render('./game/detailPage.ejs', {
+                    title: `Detail ${getGame.title}`,
+                    getGame,
+                })
+            }else{
+                res.send({
+                    message: `Detail Game`,
+                    getGame,
+                })
+            }
+        } catch (error) {
+            res.send(error);
+        }
+
+    }
     static async create(req, res) {
         try {
             const reqGame = req.body
-            if(typeof reqGame.tagIds === "string"){
-                reqGame.tagIds = JSON.parse(reqGame.tagIds)
+            if(typeof reqGame.genreIds === "string"){
+                reqGame.genreIds = JSON.parse(reqGame.genreIds)
             }
             const newGame = await game.create({ 
                 title: reqGame.title,
                 description: reqGame.description,
-                yearRelease: reqGame.yearRelease
+                yearRelease: reqGame.yearRelease,
+                publisherId: +reqGame.publisherId
             })
-            let newgameTags = {}
-            if(Array.isArray(reqGame.tagIds)){
-                reqGame.tagIds.forEach(async tag => {
-                    newgameTags = await gameTag.create({
+            let newgameGenres = {}
+            if(Array.isArray(reqGame.genreIds)){
+                reqGame.genreIds.forEach(async genre => {
+                    newgameGenres = await gameGenre.create({
                         gameId: newGame.id,
-                        tagId: tag
+                        genreId: genre
                     })
                 })
-            }else if(reqGame.tagIds){
-                newgameTags = await gameTag.create({
+            }else if(reqGame.genreIds){
+                newgameGenres = await gameGenre.create({
                     gameId: newGame.id,
-                    tagId: reqGame.tagIds
+                    genreId: reqGame.genreIds
                 })
             }
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
@@ -67,11 +102,11 @@ class GameController {
         try {
             const deletedId = +req.params.id
             const deletedGame = await game.findByPk(deletedId);
-            const fbDeleteGameTag = await gameTag.destroy({where : {gameId : deletedId}})  
+            const fbDeleteGameGenre = await gameGenre.destroy({where : {gameId : deletedId}})  
             const fbDeleteGame = await game.destroy({where : {id : deletedId}})  
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
-                if(fbDeleteGame || fbDeleteGameTag){ //feedback angka teergantung banyaknya rows ke destroy 
+                if(fbDeleteGame || fbDeleteGameGenre){ //feedback angka teergantung banyaknya rows ke destroy 
                     res.redirect('/games')
                 }else{
                     res.send(`Game with ID ${deletedId} cannot be deleted`);
@@ -94,12 +129,19 @@ class GameController {
     static async updateForm(req, res) {
         try {
             const updatedId = +req.params.id
-            const oldGame = await game.findByPk(updatedId, {include: tag});
-            const tags = await tag.findAll({order: [["name", "ASC"]]});
+            const oldGame = await game.findByPk(updatedId, {                
+                include: [
+                {model: genre, order: [["name", "ASC"]]},
+                publisher
+                ],
+            } );
+            const genres = await genre.findAll({order: [["name", "ASC"]]});
+            const publishers = await publisher.findAll({order: [["name", "ASC"]]});
             res.render('./game/updateForm.ejs', {
                 title: `Update Game Form`,
                 oldGame,
-                tags
+                genres,
+                publishers
             })
         } catch (error) {
             res.send(error);
@@ -112,28 +154,28 @@ class GameController {
             const reqGame = req.body
             const oldGame = await game.findByPk(updatedId);
             const fbUpdateGame = await game.update(reqGame ,{where : {id : updatedId}})
-            const fbDeleteGameTag = await gameTag.destroy({where : {gameId : updatedId}})  
+            const fbDeleteGameGenre = await gameGenre.destroy({where : {gameId : updatedId}})  
             const updatedGame = await game.findByPk(updatedId);
-            let newgameTags = []
-            if(typeof reqGame.tagIds === "string"){
-                reqGame.tagIds = JSON.parse(reqGame.tagIds)
+            let newgameGenres = []
+            if(typeof reqGame.genreIds === "string"){
+                reqGame.genreIds = JSON.parse(reqGame.genreIds)
             }
-            if(Array.isArray(reqGame.tagIds)){
-                reqGame.tagIds.forEach(async tag => {
-                    newgameTags = await gameTag.create({
+            if(Array.isArray(reqGame.genreIds)){
+                reqGame.genreIds.forEach(async genre => {
+                    newgameGenres = await gameGenre.create({
                         gameId: updatedId,
-                        tagId: tag
+                        genreId: genre
                 })
             })
-            }else if (reqGame.tagIds){
-                newgameTags = await gameTag.create({
+            }else if (reqGame.genreIds){
+                newgameGenres = await gameGenre.create({
                     gameId: updatedId,
-                    tagId: reqGame.tagIds
+                    genreId: reqGame.genreIds
                 })
             }
             const acceptHeader = req.get("Accept"); //untuk pisahin lewat FrontEnd dan Backend
             if(acceptHeader && acceptHeader.includes("text/html")) {
-                if(fbUpdateGame || fbDeleteGameTag){ //feedback angka teergantung banyaknya rows ke destroy
+                if(fbUpdateGame || fbDeleteGameGenre){ //feedback angka teergantung banyaknya rows ke destroy
                     res.redirect('/games');
                 }else{
                     res.send(`Game with ID ${updatedId} cannot be updated`);

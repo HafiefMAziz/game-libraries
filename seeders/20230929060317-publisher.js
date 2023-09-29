@@ -3,34 +3,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('tags', [
+    return queryInterface.bulkInsert('publishers', [
       {
-      name: "Action",
+      name: "Bethesda",
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      name: "Adventure",
+      name: "CD Projekt Red",
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      name: "FPS",
+      name: "Larian Studios",
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
-      name: "Strategy",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      name: "Simulation",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      name: "Role-playing game",
+      name: "Rockstar Games",
       createdAt: new Date(),
       updatedAt: new Date()
     },

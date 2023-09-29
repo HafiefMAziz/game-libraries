@@ -7,10 +7,10 @@
             <tr>
                 <th class="col-md-1">ID</th>
                 <th class="col-md-2">Title</th>
-                <th class="col-md-3">Description</th>
-                <th class="col-md-2">Tags</th>
+                <th class="col-md-2">Genres</th>
                 <th class="col-md-2">Release Year</th>
-                <th class="col-md-2 text-center">Options</th>
+                <th class="col-md-2">Publisher</th>
+                <th class="col-md-3 text-center">Options</th>
             </tr>
         </thead>
         <tbody>
@@ -23,25 +23,29 @@
                     <%= game.title %>
                 </td>
                 <td>
-                    <%= game.description %>
-                </td>
-                <td>
-                    <% game.tags.forEach((tag, index) => { %>
-                        <% if (game.tags.length === index+1) { %>
-                            <%= tag.name %>.
+                    <% game.genres.forEach((genre, index) => { %>
+                        <% if (game.genres.length === index+1) { %>
+                            <%= genre.name %>.
                         <% } else { %>
-                            <%= tag.name %>,
+                            <%= genre.name %>,
                         <% } %>
                     <% }) %>
                 </td>
                 <td>
                     <%= game.yearRelease %>
                 </td>
+                <td>
+                    <% if (game.publisher) { %>
+                        <%= game.publisher.name %>
+                    <% } %>
+                </td>
                 <td class="text-center">
+                    <a href="/games/detail/<%= game.id %>" type="button"
+                        class="btn btn-primary me-1"><i class="bi bi-info-square"></i></button>
                     <a href="/games/updateForm/<%= game.id %>" type="button"
-                        class="btn btn-primary me-1">Update</button>
-                        <a href="/games/delete/<%= game.id %>" type="button"
-                            class="btn btn-danger">Delete</a>
+                        class="btn btn-warning me-1"><i class="bi bi-pencil-square"></i></button>
+                    <a href="/games/delete/<%= game.id %>" type="button"
+                        class="btn btn-danger"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>
         <% }); }%>
