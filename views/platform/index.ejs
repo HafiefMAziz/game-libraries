@@ -1,7 +1,7 @@
 <%- include('../layouts/header.ejs') %>
 <%- include('./createForm.ejs') %>
 
-<% if(publishers){ %>
+<% if(platforms){ %>
     <table class="table table-striped border mb-4 align-middle">
         <thead>
             <tr>
@@ -11,18 +11,18 @@
             </tr>
         </thead>
         <tbody>
-        <% publishers.forEach(publisher => { %>
+        <% platforms.forEach(platform => { %>
             <tr>
                 <th>
-                    <%= publisher.id %>
+                    <%= platform.id %>
                 </th>
                 <td>
-                    <%= publisher.name %>
+                    <%= platform.name %>
                 </td>
                 <td class="text-center">
-                    <a href="/publishers/updateForm/<%= publisher.id %>" type="button"
+                    <a href="/platforms/updateForm/<%= platform.id %>" type="button"
                         class="btn btn-warning me-1"><i class="bi bi-pencil-square"></i></button>
-                        <a href="/publishers/delete/<%= publisher.id %>" type="button"
+                        <a href="/platforms/delete/<%= platform.id %>" type="button"
                             class="btn btn-danger"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>

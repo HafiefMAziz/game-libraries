@@ -20,6 +20,10 @@
       "description": "Table Genres"
     },
     {
+      "name": "Platform",
+      "description": "Table Platforms"
+    },
+    {
       "name": "Publisher",
       "description": "Table Publishers"
     }
@@ -29,6 +33,25 @@
       "get": {
         "tags": ["Game"],
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/games/detail/{id}": {
+      "get": {
+        "tags": ["Game"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -117,6 +140,92 @@
                 },
                 "genreIds": {
                   "example": "[1, 2, 3]"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/platforms/": {
+      "get": {
+        "tags": ["Platform"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/platforms/create": {
+      "post": {
+        "tags": ["Platform"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Steamdeck"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/platforms/delete/{id}": {
+      "get": {
+        "tags": ["Platform"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/platforms/update/{id}": {
+      "post": {
+        "tags": ["Platform"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "ATARI 3000"
                 }
               }
             }

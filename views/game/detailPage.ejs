@@ -1,7 +1,8 @@
 <%- include('../layouts/header.ejs') %>
 <% if(getGame){ %>
-    <a href="/games" type="button" class="btn btn-primary mb-3"><i class="bi bi-arrow-left-square"></i> Back</a>
-    <div class="card mb-3">
+    <button type="button" class="hBack btn btn-primary my-4 me-3"><i class="bi bi-arrow-left-square"></i> Back</button>
+    <a href="/games/updateForm/<%= getGame.id %>" type="button" class="btn btn-warning my-4"><i class="bi bi-pencil-square"></i> Edit Game</a>
+    <div class="card mb-4 px-0">
         <div class="row g-0">
           <div class="col-md-3">
             <% if (getGame.imageUrl) { %>
@@ -16,18 +17,31 @@
               <% if (getGame.publisher) { %>
                 <h5 class="card-subtitle mb-2"><%= getGame.publisher.name %></h5>
                 <% } %>
-                <% if (getGame.genres) { %>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        <% getGame.genres.forEach((genre, index) => { %>
-                            <% if (getGame.genres.length === index+1) { %>
-                            <%= genre.name %>.
-                            <% } else { %>
-                            <%= genre.name %>,
-                            <% } %>
-                        <% })%>
-                    </h6>
-                <% } %>
+              <% if (getGame.genres) { %>
+                  <h6 class="card-subtitle mb-2 text-muted">Genres: 
+                    <% getGame.genres.forEach((genre, index) => { %>
+                      <% if (getGame.genres.length === index+1) { %>
+                        <%= genre.name %>.
+                      <% } else { %>
+                        <%= genre.name %>,
+                      <% } %>
+                    <% })%>
+                  </h6>
+              <% } %>
+              <% if (getGame.platforms) { %>
+                <h6 class="card-subtitle mb-2 text-muted">Platforms: 
+                  <% getGame.platforms.forEach((platform, index) => { %>
+                    <% if (getGame.platforms.length === index+1) { %>
+                      <%= platform.name %>.
+                      <% } else { %>
+                        <%= platform.name %>,
+                      <% } %>
+                  <% })%>
+                </h6>
+              <% } %>
               <p class="card-text"><%= getGame.description %></p>
+            </div>
+            <div class="card-footer bg-transparent">
               <p class="card-text"><small class="text-muted">Last updated : <%= getGame.updatedAt %></small></p>
             </div>
           </div>

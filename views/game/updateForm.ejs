@@ -1,20 +1,25 @@
 <%- include('../layouts/header.ejs') %>
-    <div class="div border rounded">
+    <button type="button" class="hBack btn btn-primary my-4 me-3"><i class="bi bi-arrow-left-square"></i> Back</button>
+    <div class="div border rounded mb-4">
         <form action="/games/update/<%= oldGame.id %>" method="post" class="my-4 mx-4">
             <div class="row mb-4">
                 <h4>Update Game</h4>
             </div>
-            <div class="row mb-3">
-                <label for="inputDescription" class="col-sm-1 col-form-label">Title</label>
+            <div class="row mb-4">
+                <label for="inputTitle" class="col-sm-1 col-form-label">Title</label>
                 <div class="col-sm-3">
                     <input required value="<%= oldGame.title %>" name="title" type="text" class="form-control" id="inputTitle">
                 </div>
+                <label for="inputImageURL" class="col-sm-1 col-form-label">Image URL</label>
+                <div class="col-sm-3">
+                    <input required value="<%= oldGame.imageUrl %>" name="imageUrl" type="url" class="form-control" id="inputImageURL">
+                </div>
+            </div>
+            <div class="row mb-4">
                 <label for="inputyearRelease" class="col-sm-1 col-form-label">Release Year</label>
                 <div class="col-sm-3">
                     <input required value="<%= oldGame.yearRelease %>" name="yearRelease" type="number" class="form-control" id="inputyearRelease" min="1900" max="2099" value="2023">
                 </div>
-            </div>
-            <div class="row mb-4">
                 <label for="publisherIdInput" class="col-sm-1 col-form-label">Publishers</label>
                 <div class="col-sm-3">
                     <select required id="publisherIdInput" type="number" name="publisherId" class="form-select">
@@ -25,12 +30,14 @@
                                   <option value="<%= publisher.id %>"><%= publisher.name %></option> 
                               <% } %>
                             <% }) %>
-                        <% }else { %>
+                        <% } else { %>
                             <% publishers.forEach(publisher => { %>
                                 <option value="<%= publisher.id %>"><%= publisher.name %></option> 
                             <% }) %>
                         <% } %>
                     </select>
+            </div>
+            <div class="row mb-4">
                 </div>
                 <label for="genreIdsInput" class="col-sm-1 col-form-label">Genres</label>
                 <div class="col-sm-3">
@@ -40,8 +47,20 @@
                                 <option selected value="<%= genre.id %>"><%= genre.name %></option> 
                                 <% } else { %>
                                     <option value="<%= genre.id %>"><%= genre.name %></option>
-                                    <% } %>
-                                    <% }) %>
+                                <% } %>
+                        <% }) %>
+                    </select>
+                </div>
+                <label for="platformIdsInput" class="col-sm-1 col-form-label">Platforms</label>
+                <div class="col-sm-3">
+                    <select multiple id="platformIdsInput" type="number" name="platformIds" class="form-select chosen-select">
+                        <% platforms.forEach(platform => { %>
+                            <% if (oldGame.platforms.some(oldPlatform => oldPlatform.id === platform.id)) { %>
+                                <option selected value="<%= platform.id %>"><%= platform.name %></option> 
+                                <% } else { %>
+                                    <option value="<%= platform.id %>"><%= platform.name %></option>
+                                <% } %>
+                        <% }) %>
                     </select>
                 </div>
             </div>

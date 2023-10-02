@@ -1,12 +1,12 @@
-<button type="button" class="btn btn-success my-4" data-bs-toggle="modal" data-bs-target="#addPublisher"><i class="bi bi-plus-lg"></i>Add Publisher</button>
-<div class="modal fade" id="addPublisher" tabindex="-1" aria-labelledby="addPublisherLabel" aria-hidden="true">
+<button type="button" class="btn btn-success my-4" data-bs-toggle="modal" data-bs-target="#addPlatform"><i class="bi bi-plus-lg"></i>Add Platform</button>
+<div class="modal fade" id="addPlatform" tabindex="-1" aria-labelledby="addPlatformLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addPublisherLabel">Add a new Publisher</h5>
+          <h5 class="modal-title" id="addPlatformLabel">Add a new Platform</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="/publishers/create" method="post">
+        <form action="/platforms/create" method="post">
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="nameInput" class="form-label">Name</label>

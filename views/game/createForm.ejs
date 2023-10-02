@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addGame"><i class="bi bi-plus-lg"></i>Add Game</button>
+<button type="button" class="btn btn-success my-4" data-bs-toggle="modal" data-bs-target="#addGame"><i class="bi bi-plus-lg"></i>Add Game</button>
 <div class="modal fade" id="addGame" tabindex="-1" aria-labelledby="addGameLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -13,8 +13,12 @@
                     <input required  type="text" name="title" class="form-control" id="titleInput">
                 </div>
                 <div class="mb-3">
-                    <label for="descriptionInput" class="form-label">Description</label>
-                    <textarea required type="text" name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+                  <label for="descriptionInput" class="form-label">Description</label>
+                  <textarea required type="text" name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="imageUrlInput" class="form-label">Image URL</label>
+                    <input required  type="url" name="imageUrl" class="form-control" id="imageUrlInput">
                 </div>
                 <div class="mb-3">
                     <label for="yearReleaseInput" class="form-label">Release Year</label>
@@ -29,10 +33,18 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="genreIdsInput" class="form-label">Tags</label>
+                    <label for="genreIdsInput" class="form-label">Genres</label>
                     <select multiple id="genreIdsInput" type="number" name="genreIds" class="form-select chosen-select">
                       <% genres.forEach(genre => { %>
                         <option value="<%= genre.id %>"><%= genre.name %></option>
+                      <% }) %>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="platformIdsInput" class="form-label">Platforms</label>
+                    <select multiple id="platformIdsInput" type="number" name="platformIds" class="form-select chosen-select">
+                      <% platforms.forEach(platform => { %>
+                        <option value="<%= platform.id %>"><%= platform.name %></option>
                       <% }) %>
                     </select>
                 </div>

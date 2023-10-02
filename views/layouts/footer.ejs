@@ -1,4 +1,7 @@
+  </div>
 </div>
+
+
 <!-- Optional JavaScript; choose one of the two! -->
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -12,10 +15,37 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-    $('.chosen-select').chosen({width: "100%"});
-  });
+      $('.chosen-select').chosen({width: "100%"});
+    });
+    $(".hBack").on("click", function(e){
+      e.preventDefault();
+      window.history.back();
+    });
 </script>
+<style type="text/css">
+  .wrapper {
+    position: relative;
+  }
+  .custom-container {
+    width: 80%;
+    height: 80%;
+  }
+  .bg-image {
+    background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/056fc33b-b4e0-45ec-97bd-e5d84878cec1/d5otwn8-64c2da9b-2818-46c0-b9b0-fcacfc90db22.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzA1NmZjMzNiLWI0ZTAtNDVlYy05N2JkLWU1ZDg0ODc4Y2VjMVwvZDVvdHduOC02NGMyZGE5Yi0yODE4LTQ2YzAtYjliMC1mY2FjZmM5MGRiMjIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ITrTB8LdaEV_-sRD3Ioh0t5PwpJcdlS601Vb5SfVk88');
+    filter: blur(3px) opacity(50%);
+    height: 100vh;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+}
 
+</style>
 
 </body>
 </html>

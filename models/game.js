@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       game.belongsToMany(models.genre, {through: models.gameGenre})
+      game.belongsToMany(models.platform, {through: models.gamePlatform})
       game.belongsTo(models.publisher)
     }
   }

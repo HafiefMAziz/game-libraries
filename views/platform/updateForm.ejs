@@ -1,14 +1,14 @@
 <%- include('../layouts/header.ejs') %>
     <button type="button" class="hBack btn btn-primary my-4 me-3"><i class="bi bi-arrow-left-square"></i> Back</button>
     <div class="div border rounded mb-4">
-        <form action="/genres/update/<%= oldGenre.id %>" method="post" class="my-4 mx-4">
+        <form action="/platforms/update/<%= oldPlatform.id %>" method="post" class="my-4 mx-4">
             <div class="row mb-4">
-                <h4>Update Genre</h4>
+                <h4>Update Platform</h4>
             </div>
             <div class="row mb-3">
                 <label for="inputName" class="col-sm-1 col-form-label">Name</label>
                 <div class="col-sm-3">
-                    <input required value="<%= oldGenre.name %>" name="name" type="text" class="form-control"
+                    <input required value="<%= oldPlatform.name %>" name="name" type="text" class="form-control"
                         id="inputName">
                 </div>
             </div>
